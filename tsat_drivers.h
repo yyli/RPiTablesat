@@ -1,7 +1,6 @@
 #ifndef TSAT_DRIVERS_H
 #define TSAT_DRIVERS_H
 
-
 // initialize the i2c connections
 int tsat_init();
 

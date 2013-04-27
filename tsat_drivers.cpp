@@ -1,6 +1,7 @@
 #include "tsat_drivers.h"
 #include <cstdio>
 #include <cstdlib>
+#include <ctime>
 #include <stdint.h>
 #include <fcntl.h>
 #include <linux/i2c-dev.h>
@@ -155,7 +156,6 @@ void decode_config_register(uint16_t config) {
     }
     printf("\n");
 }
-
 
 // initialize the i2c connections
 int tsat_init() {

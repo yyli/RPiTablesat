@@ -29,25 +29,13 @@ static AVPacket avpkt;
 static AVPicture pict;
 static struct SwsContext *img_convert_ctx = NULL;
 static uint8_t *buffer                    = NULL;
+static UDTSOCKET sock;
 
-static void print_context(AVCodecContext *c) {
-    cout << "===== START: AVCodecContext =====" << endl;
-    if (c == NULL) {
-        cout << "NULL AVCodecContext" << endl;
-    } else {
-        cout << "Width            : " << c->width << endl;
-        cout << "Height           : " << c->height << endl;
-        cout << "Average Bit Rate : " << c->bit_rate << endl;
-    }
-    cout << "====== END: AVCodecContext ======" << endl;
-}
-
-UDTSOCKET RPiDecodeInit(const char* addr, int port) {
-    UDTSOCKET sock;
+int RPiDecodeInit(const char* addr, int port) {
     char sport[10];
     snprintf(sport, 10, "%d", port);
     if ((sock = udtConnect(addr, sport)) == UDT::ERROR) {
-        return 1;
+        return -1;
     }
     avcodec_register_all();
     
@@ -159,10 +147,10 @@ UDTSOCKET RPiDecodeInit(const char* addr, int port) {
 
     delete[] buf;
 
-    return sock;
+    return 0;
 }
 
-int RPiDecodeGetImage(UDTSOCKET sock, Image **im, double &timestamp) {
+int RPiDecodeGetImage(cv::Mat &ret, double &timestamp) {
     char *buf;
     int size = 0;
     int len = 0;
@@ -197,7 +185,9 @@ int RPiDecodeGetImage(UDTSOCKET sock, Image **im, double &timestamp) {
     if (got_frame) {
         if (img_convert_ctx != NULL) {
             sws_scale(img_convert_ctx, frame->data, frame->linesize, 0, c->height, pict.data, pict.linesize);
-            *im = new Image((char*)pict.data[0], c->width, c->height, 3*c->width*c->height);
+            cv::Mat temp(c->height, c->width, CV_8UC3, pict.data[0]);
+            cv::cvtColor(temp, ret, CV_RGB2BGR);
+            // *im = new Image((char*)pict.data[0], c->width, c->height, 3*c->width*c->height);
             // memcpy(image, pict.data[0], 3*sizeof(GLubyte)*c->width*c->height);
         }
     }

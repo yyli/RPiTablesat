@@ -224,7 +224,7 @@ void camera_loop(UDTSOCKET sock, int bitrate) {
 		                    return;
 		                }
 
-		                if (partial_frames[i].del) 
+		                if (partial_frames[i].del)
 		                	delete[] partial_frames[i].data;
 		        	}
 
