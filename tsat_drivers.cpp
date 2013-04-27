@@ -7,6 +7,11 @@
 #include <linux/i2c-dev.h>
 #include <unistd.h>
 
+// minimum value for the OPAMP to output the lowest voltage
+// this is a number that might have to be tuned if different OPAMPS are used
+// or a different voltage regulator is used since the reference voltage would have changes
+static int MINDACVAL = 700;
+
 // file descriptors
 static int ADC1FD = 0;
 static int ADC2FD = 0;
@@ -27,9 +32,6 @@ static const char* BUSNAME = "/dev/i2c-1";
 
 // bool to tell if initializeds
 static int initbool = 0;
-
-// minimul
-static int MINDACVAL = 700;
 
 // ADC defines
 #define ADS1115_I2C_ADDRESSES           { 0x48, 0x49, 0x4A, 0x4 };
