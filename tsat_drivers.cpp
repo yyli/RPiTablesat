@@ -27,6 +27,9 @@ static const char* BUSNAME = "/dev/i2c-1";
 // bool to tell if initializeds
 static int initbool = 0;
 
+// minimul
+static int MINDACVAL = 700;
+
 // ADC defines
 #define ADS1115_I2C_ADDRESSES           { 0x48, 0x49, 0x4A, 0x4 };
 
@@ -290,11 +293,11 @@ int tsat_read(double (&values)[8]) {
 
 // write the value to the channel
 int tsat_write(int channel, double value) {
-    int volt = value/5.0 * 4095;
+    int volt = value/10.0 * (4095 - MINDACVAL) + MINDACVAL;
     if (volt > 4095)
         volt = 4095;
-    if (volt < 0)
-        volt = 0;
+    if (volt < MINDACVAL)
+        volt = MINDACVAL;
     if (channel == 0)
         i2c_smbus_write_word_data(DAC1FD, DACWRITEADDR, shift(volt));
     else if (channel == 1)
@@ -314,22 +317,4 @@ int tsat_deinit() {
     close(DAC2FD);
 
     return 0;
-}
-
-int main() {
-    tsat_init();
-    int fan;
-    double volt;
-    while(1) {
-        tsat_write(fan, volt);
-
-        double values[8] = {0};
-        tsat_read(values);
-        for (int i = 0; i < 8; i++)
-            printf("%8.6f ", values[i]);
-
-        printf("\n");
-    }
-
-    tsat_deinit();
 }
