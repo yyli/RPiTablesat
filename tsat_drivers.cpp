@@ -25,7 +25,11 @@ static int DAC1ADDR = 0x62;
 static int DAC2ADDR = 0x63;
 
 // DA write address
+#ifdef EEPROMWRITE
+static int DACWRITEADDR = 0x60;
+#else
 static int DACWRITEADDR = 0x40;
+#endif
 
 // bus name
 static const char* BUSNAME = "/dev/i2c-1";

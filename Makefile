@@ -12,6 +12,9 @@ all: $(BIN)
 command_fan: command_fan.cpp tsat_drivers.a
 	$(CROSSCC) $(CFLAGS) $^ -o $@
 
+command_fan_eeprom: command_fan.cpp tsat_drivers.a
+	$(CROSSCC) -DEEPROMWRITE $(CFLAGS) $^ -o $@
+
 read_gyro: read_gyro.cpp tsat_drivers.a
 	$(CROSSCC) $(CFLAGS) $^ -o $@
 
