@@ -36,8 +36,8 @@ RPiDecode.a: udtComm.o RPiDecode.o
 camclient: camclient.cpp RPiDecode.a
 	$(CC) -O3 -D__STDC_CONSTANT_MACROS -Wall $^ -o $@ `pkg-config libavcodec libavutil libswscale opencv --cflags --libs` -ludt
 
-camserver: camserver.cpp camera.cpp udtComm.o
-	$(CROSSCC) $(SERVERCFLAGS) $(SERVERINCLUDES) -o $@ -Wl,--whole-archive $^ $(SERVERLDFLAGS) -Wl,--no-whole-archive -rdynamic
+camserver: camserver.cpp camera.cpp udtComm.cpp
+	$(CC) $(SERVERCFLAGS) $(SERVERINCLUDES) -o $@ -Wl,--whole-archive $^ $(SERVERLDFLAGS) -Wl,--no-whole-archive -rdynamic
 
 clean:
 	rm -rf $(BIN)

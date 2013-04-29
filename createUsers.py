@@ -25,3 +25,8 @@ for line in file:
             print("Success!")
         else:
             print("Failed!")
+        print("Adding " + uname.strip() + " to video group")
+        if call("sudo usermod -aG video " + uname.strip(), shell=True) == 0:
+            print("Success!")
+        else:
+            print("Failed!")

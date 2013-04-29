@@ -260,6 +260,12 @@ int main(int argc, char* argv[]) {
             return 0;
         }
     }
+
+    if (bitrate > 20000000)
+        bitrate = 20000000;
+    else if (bitrate < 0)
+        bitrate = 0;
+
     bcm_host_init();
     UDTSOCKET sock = udtOpenServer("12345");
 
