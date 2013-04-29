@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{fullpage}
+\usepackage{pdfpages}
 
 \begin{document}
 \title{TableSat: Raspberry Pi Edition Documentation \\ \hfill \\ \large Winter 2013: Independent Study Project}
@@ -65,7 +66,8 @@ The 5V regulators we used is just a 5V BEC used in hobby airplanes, this is easi
     \item The DAC's output will change depending on the 5V, if the regulator is changed, the DAC might output a couple of millivolts more or less than before. This means that the 1V require for the op-amp might change values. More information on how to change this for the software can be found under the Software $\rightarrow$ I$^2$C section
 \end{itemize}
 \subsection{Circuit Design}
-Above is a figure of the circuits and how they all form together. A PCB can be created from this, however its design is not provided with this new version.
+\includepdf{circuit-rot.pdf}
+Below is a figure of the circuits and how they all form together. A PCB can be created from this, however its design is not provided with this new version.
 
 \section{Software}
 \subsection{Setting up the Raspberry Pi}
@@ -80,7 +82,7 @@ First create the SD card for the Raspberry Pi.
     \item Run ``{\tt Sudo sync}'' to force the write to the SD card.
 \end{enumerate}
 
-\subsubsection{Raspberry Pi Inital Boot}
+\subsubsection{Raspberry Pi Initial Boot}
 Now we have the SD card, plug the it into the Raspberry Pi, as well as a monitor and keyboard.
 
 \begin{enumerate}
@@ -287,7 +289,7 @@ You should not distribute the source code of the ``{\tt camserver}'' to the stud
 
 The ``{\tt Makefile}'' will create this program only using the command ``{\tt make camserver}''. \emph{THIS HAS TO BE DONE ON THE PI}, this is because there are GPU code that is extremely hard to pull into the cross compiling environment.
 
-How to run ``{\tt camserver}'':  ``{\tt ./camserver bitrate}'' where the bitrate is the average bitrate you want for the video stream, 20000000 is extremely high quality video and this is the max, defaults to the lowest possible bitrate. ``{\tt ./camserver bitrate > /dev/null}'' will pipe the output to nothing, this is useful as the ssh connection takes bandwidth as well.
+How to run ``{\tt camserver}'':  ``{\tt ./camserver bitrate}'' where the bitrate is the average bitrate you want for the video stream, 20000000 is extremely high quality video and this is the max, defaults to the lowest possible bitrate. ``{\tt ./camserver bitrate > /dev/null}'' will pipe the output to nothing, this is useful as the ssh connection takes bandwidth as well. Note that due to the nature of a UDP server this program doesn't instantly quit when the connection is broken, it must be closed and rerun every time you want to reconnect.
 
 \begin{itemize}
     \item ``{\tt camserver.cpp/.h}'': contains the GPU encoding code.
@@ -319,6 +321,8 @@ How to run ``{\tt camserver}'':  ``{\tt ./camserver bitrate}'' where the bitrate
         \item ``{\tt -D\textunderscore \textunderscore STDC\textunderscore CONSTANT\textunderscore MACROS}'' is required as there is a bug that says a certain constant isn't defined in the FFMPEG libraries.
         \item ``{\tt pkg-config *}'' and ``{\tt -ludt}'' are required for linking.
     \end{itemize}
+
+    Note that due to the nature of a UDP server these program doesn't instantly quit when the connection is broken, it must be closed and rerun every time you want to reconnect.
 \end{itemize}
 
 \end{document}
