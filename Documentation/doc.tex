@@ -231,7 +231,7 @@ This is to set up a cross compiler to the Pi
 We need to set up the server for the computer vision.
 
 \begin{enumerate}
-    \item Run ``{\tt sudo apt-get install pkg-configsudo}''.
+    \item Run ``{\tt sudo apt-get install pkg-config}''.
     \item Extract the tar using ``{\tt tar xvaf udt.sdk.4.11.tar.gz}''
     \item cd into the directory using ``{\tt cd udt4}''.
     \item Run ``{\tt make}''.
@@ -244,7 +244,7 @@ We need to set up the server for the computer vision.
     \item Extract the tar using ``{\tt tar xvaf ffmpeg-snapshot.tar.bz2}''.
     \item cd into the directory using ``{\tt cd ffmpeg}''.
     \item Run ``{\tt sudo apt-get install yasm}''.
-    \item Run ``{\tt ./configure}''.
+    \item Run ``{\tt ./configure --enable-shared}''.
     \item Run ``{\tt make}''.
     \item Run ``{\tt sudo make install}''.
     \item Run ``{\tt sudo apt-get install cmake}''.
